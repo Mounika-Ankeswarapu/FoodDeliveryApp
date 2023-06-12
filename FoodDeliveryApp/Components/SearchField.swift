@@ -12,7 +12,7 @@ struct SearchField: View {
     @Binding var onTapSearch: Bool
     @Binding var text: String
     @Namespace var namespace
-    
+
     var body: some View {
         VStack {
             if !onTapSearch {
@@ -94,3 +94,4 @@ struct SearchBarExpand: View {
         .background(Color.white)
     }
 }
+

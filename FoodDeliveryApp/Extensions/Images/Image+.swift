@@ -21,10 +21,14 @@ extension Image {
     static let cake = Image("cake")
     static let bbq = Image("bbq")
     static let kabab = Image("kabab")
-    static let Logo = Image("Logo")
-    static let plusAdd = Image("plusAdd")
+    static let logo = Image("Logo")
+    
     static let FruitSalad = Image("FruitSalad")
     static let Curry = Image("Curry")
+    static let back = Image("back")
+    static let plus = Image("plus")
+    static let minus = Image("minus")
+    
     
     
 }

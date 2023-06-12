@@ -9,19 +9,23 @@ import Foundation
 import SwiftUI
 
 struct CategoryItemView: View {
-    var image: Image
+    
+    @Binding var isSelected: Bool
+    @State var color: Color
+    @State var fillColor: Color
+    @State var image: Image
+    
     var title: String
-    var fillColor: Color
+          
     var body: some View {
         VStack {
             ZStack {
                 RoundedRectangle(cornerRadius: 25)
                     .frame(width: 90, height: 70)
-                    .foregroundColor(fillColor)
-                VStack(alignment: .center, spacing: 15){
+                    .foregroundColor(isSelected ? color : fillColor)
+
                     image
                   
-                }
             }
             Text(title)
                 .font(.title3)
@@ -33,7 +37,8 @@ struct CategoryItemView: View {
 
 struct CategoryItemView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryItemView(image: Image.AllDishes, title: "All", fillColor: .bgColor)
+
+        CategoryItemView(isSelected: .constant(false), color: .thaiCardColor, fillColor: .bgColor, image: Image.AllDishes, title:"All")
        
     }
 }

@@ -5,119 +5,103 @@
 //  Created by Mounika Ankeswarapu on 03/06/23.
 //
 
+
 import SwiftUI
 
-struct DetailsCardView: View {
-    
+struct DetailCardView: View {
     var fillColor: Color
     @State private var rating = 0
+    @EnvironmentObject var viewModel: DetailViewModel
     var body: some View {
-        VStack{
-            Spacer()
-            ZStack{
-                RoundedRectangle(cornerRadius: 40.0)
-                    .frame(width: 401, height: 540)
-                    .foregroundColor(fillColor)
-                Image("Noodles")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 270,height: 250)
-                    .offset(x: 0, y: -270)
-                VStack{
-                    
-                    VStack{
-                        Text("Rice Noodles with shrimps,egg,pork,choy,cabbage.Noodles")
-                            .font(.caption)
-                            .foregroundColor(.black)
-                        
-                            .multilineTextAlignment(.leading)
-                        //                        .lineLimit(3)
-                        Text("fave or trying something completely new, we want your")
-                            .foregroundColor(.black)
-                            .font(.caption)
-                            .multilineTextAlignment(.center)
-                        Text("tastebuds to be your happy buds.")
-                            .foregroundColor(.black)
-                            .font(.caption)
-                            .multilineTextAlignment(.center)
-                    }  .padding(EdgeInsets(top: 5, leading: 10, bottom: 30, trailing: 10))
-                    
-                    VStack(alignment: .leading){
-                        Text("Noodles")
-                            .foregroundColor(.black)
-                            .font(.title2)
-                            .fontWeight(.medium)
-                            .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-                        
-                        
-                        HStack{
-                            Text("300g/530 kcal")
-                                .foregroundColor(.black)
-                                .font(.caption)
-                            
-                            Spacer()
-                            Text("1 portion")
-                                .foregroundColor(.black)
-                                .font(.caption)
-                        }
-                        .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 30))
-                        
-                    }
-                    HStack{
-                        Image("Logo")
-                        VStack(alignment: .leading){
-                            Text("Chin Club")
-                                .foregroundColor(.black)
-                            Text("3.1 km from you")
-                                .foregroundColor(Color.TextColor)
-                        }
-                        Spacer()
-                        
-                        RatingStars(rating: $rating)
-                    }.padding(EdgeInsets(top: 20, leading: 30, bottom: 0, trailing: 30))
-                    
-                    HStack {
-                        VStack(alignment: .leading){
-                            Text("Price:").foregroundColor(.black) + Text("$9.20").foregroundColor(.TextColor)
-                            Text("$7,50") .fontWeight(.bold)  .foregroundColor(.black)
-                            
-                        }
-                        Spacer()
-                        
-                        
-                        Button(action: {}, label: {
-                            HStack{
-                                
-                                Text("Add to cart ")
-                                    .bold()
-                                    .foregroundColor(.white)
-                                    .frame(width: 150, height: 50)
-                                    .background(Color.thaiCardColor)
-                                    .cornerRadius(30)
-                                
-                                Image(systemName: "plus.circle")
-                                    .foregroundColor(.thaiCardColor)
-                                
-                                    
-//                                    .renderingMode(.original)
-                                
-                            }
-                        })
-                        
-                        
-                    } .padding(EdgeInsets(top: 20, leading: 30, bottom: 0, trailing: 20))
-                    
-                    
-                }
-              
-            }
-            
+        ZStack {
+            RoundedRectangle(cornerRadius: 40.0)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .foregroundColor(fillColor)
+                .padding(.top, 300)
+                .ignoresSafeArea()
+
+            VStack(alignment: .leading, spacing: 20) {
+                description
+                itemDetail
+                ratingSection
+//                Spacer()
+                priceSummary
+            }.padding(.top, 280)
         }
+    }
+
+    @ViewBuilder
+    var description: some View {
+        Text(" Rice Noodles with shrimps,egg,pork, choy,cabbage. Noodles fave or trying something completely new,  we want your tastebuds to be your happy buds. ")
+        
+            .multilineTextAlignment(.center)
+            .font(.caption)
+            .padding(.horizontal, 8)
+    }
+
+    @ViewBuilder
+    var itemDetail: some View {
+        VStack(spacing: 12) {
+            HStack(alignment: .lastTextBaseline) {
+                VStack(alignment: .leading) {
+                    Text("Noodles")
+                        .font(.title2.bold())
+
+                    Text("300g/530 kcal")
+                        .font(.caption)
+                }
+                Spacer()
+                Text("1 portion")
+            }
+            Divider()
+        }.padding(.horizontal, 20)
+    }
+
+    @ViewBuilder
+    var ratingSection: some View {
+        VStack(spacing: 12) {
+            HStack {
+                Image.logo
+                VStack(alignment: .leading) {
+                    Text("Chin Club")
+                    Text("3.1 km from you")
+                        .foregroundColor(.TextColor)
+                }
+                Spacer()
+                RatingStars(rating: $rating)
+            }
+            Divider()
+        }.padding(.horizontal, 20)
+    }
+
+    @ViewBuilder
+    var priceSummary: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Group {
+                    Text("Price:")
+                        +
+                        Text(" $9.20")
+                        .foregroundColor(.TextColor)
+                }
+                Text("$7,50")
+                    .font(.title.bold())
+            }
+            Spacer()
+            AddToCartButton {
+                viewModel.navigateToOrders = true
+            }
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 34)
     }
 }
 
-struct DetailsCardView_Previews: PreviewProvider {
+struct DetailCardView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailsCardView(fillColor: .bgColor)
+        VStack {
+            DetailCardView(fillColor: .white)
+        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.bgColor)
     }
 }
